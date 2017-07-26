@@ -9,11 +9,9 @@ import os
 
 import pandas as pd
 
-
 from pybel_tools.constants import evidence_format, PYBEL_RESOURCES_ENV, pubmed
-from pybel_tools.resources import EC_PATTERN
 from pybel_tools.document_utils import write_boilerplate
-from pybel_tools.resources import CONFIDENCE, CHEBI_IDS, get_latest_arty_namespace
+from pybel_tools.resources import CONFIDENCE, EC_PATTERN, get_latest_arty_namespace
 
 log = logging.getLogger(__name__)
 
@@ -129,9 +127,3 @@ def add_to_pybel_resources():
 
     with open(os.path.join(os.environ[PYBEL_RESOURCES_ENV], 'knowledge', FILE), 'w') as f:
         write_bel(f)
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=20)
-    log.setLevel(20)
-    add_to_pybel_resources()
