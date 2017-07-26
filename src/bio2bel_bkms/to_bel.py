@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Run this script with :code:`python3 -m bio2owl_bkms.to_bel`"""
+"""Run this script with :code:`python3 -m bio2bel_bkms.to_bel`"""
 
 from __future__ import print_function
 

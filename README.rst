@@ -1,4 +1,4 @@
-bio2owl_bkms
+bio2bel_bkms
 ============
 Convert the BKMS reaciton database to BEL
 
