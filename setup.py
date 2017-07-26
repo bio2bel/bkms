@@ -15,6 +15,9 @@ INSTALL_REQUIRES = [
     'pybel_tools',
 ]
 ENTRY_POINTS = {
+    'console_scripts': [
+        'bio2bel_bkms = bio2bel_bkms.cli:main',
+    ]
 }
 
 HERE = os.path.abspath(os.path.dirname(__file__))
