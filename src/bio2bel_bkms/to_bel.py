@@ -9,11 +9,9 @@ import os
 
 import pandas as pd
 
-
 from pybel_tools.constants import evidence_format, PYBEL_RESOURCES_ENV, pubmed
-from pybel_tools.resources import EC_PATTERN
 from pybel_tools.document_utils import write_boilerplate
-from pybel_tools.resources import CONFIDENCE, CHEBI_IDS, get_latest_arty_namespace
+from pybel_tools.resources import CONFIDENCE, EC_PATTERN, get_latest_arty_namespace
 
 log = logging.getLogger(__name__)
 
@@ -60,7 +58,7 @@ def get_data():
         df = pd.read_csv(cache_path, sep='\t', header=None, index_col=0, names=header)
     else:
         log.info('downloading BKMS')
-        df = pd.read_csv(url, sep='\t', header=None, index_col=0, names=header, compression='gzip')
+        df = pd.read_csv(url, sep='\t', header=None, index_col=0, names=header, skiprows=3, compression='gzip')
 
     return df
 

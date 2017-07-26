@@ -11,7 +11,7 @@ def main():
 
 
 @main.command()
-@click.option('-o', '--output', type=click.File('r'), default=sys.stdout)
+@click.option('-o', '--output', type=click.File('w'), default=sys.stdout)
 def write(output):
     """Writes BKMS to file"""
     write_bel(output)
