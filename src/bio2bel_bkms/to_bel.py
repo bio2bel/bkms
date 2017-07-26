@@ -9,6 +9,7 @@ import os
 
 import pandas as pd
 
+from pybel.utils import ensure_quotes
 from pybel_tools.constants import evidence_format, PYBEL_RESOURCES_ENV, pubmed
 from pybel_tools.document_utils import write_boilerplate
 from pybel_tools.resources import CONFIDENCE, EC_PATTERN, get_latest_arty_namespace
@@ -82,6 +83,7 @@ def write_bel(file):
     print(pubmed(title, pmid), file=file)
     print(evidence_format.format('Serialized from BKMS-react'), file=file)
     print('SET Confidence = "Axiomatic"', file=file)
+
     key_errors, c = 0, 0
     for _, ec, reaction in df[['EC Number', 'Reaction']].itertuples():
 
@@ -94,22 +96,40 @@ def write_bel(file):
         products = [c.strip() for c in products.split(' + ')]
 
         try:
-            reactants_chebi = [r.strip().lower() for r in reactants]
-            reactants = ['a(CHEBI:{})'.format(r) for r in reactants_chebi]
+            reactants_chebi = [
+                r.strip().lower()
+                for r in reactants
+            ]
 
-            products_chebi = [r.strip().lower() for r in products]
-            products = ['a(CHEBI:{})'.format(r) for r in products_chebi]
+            reactants = [
+                'a(CHEBI:{})'.format(ensure_quotes(r))
+                for r in reactants_chebi
+            ]
+
+            products_chebi = [
+                r.strip().lower()
+                for r in products
+            ]
+
+            products = [
+                'a(CHEBI:{})'.format(ensure_quotes(r))
+                for r in products_chebi
+            ]
+
         except KeyError:
             key_errors += 1
             continue
         except Exception as e:
             log.exception('prob')
             continue
+
         try:
             print('act(p(EC:"{}")) => rxn(reactants({}), products({}))'.format(
                 ec,
                 ','.join(reactants),
-                ','.join(products)), file=file
+                ','.join(products),
+            ),
+                file=file
             )
         except:
             log.exception('problem printing')
@@ -118,12 +138,9 @@ def write_bel(file):
     log.info('Number problematic reactions: %d', c)
 
 
-FILE = 'brenda.bel'
-
-
 def add_to_pybel_resources():
     if PYBEL_RESOURCES_ENV not in os.environ:
         raise ValueError('{} not in os.environ'.format(PYBEL_RESOURCES_ENV))
 
-    with open(os.path.join(os.environ[PYBEL_RESOURCES_ENV], 'knowledge', FILE), 'w') as f:
+    with open(os.path.join(os.environ[PYBEL_RESOURCES_ENV], 'knowledge', 'brenda.bel'), 'w') as f:
         write_bel(f)
