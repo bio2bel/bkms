@@ -129,9 +129,3 @@ def add_to_pybel_resources():
 
     with open(os.path.join(os.environ[PYBEL_RESOURCES_ENV], 'knowledge', FILE), 'w') as f:
         write_bel(f)
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=20)
-    log.setLevel(20)
-    add_to_pybel_resources()
