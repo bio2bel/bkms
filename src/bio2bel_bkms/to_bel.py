@@ -9,11 +9,11 @@ import os
 
 import pandas as pd
 
-import bio2owl_chebi.download
+
 from pybel_tools.constants import evidence_format, PYBEL_RESOURCES_ENV, pubmed
-from resources import EC_PATTERN
+from pybel_tools.resources import EC_PATTERN
 from pybel_tools.document_utils import write_boilerplate
-from pybel_tools.resources import CONFIDENCE, CHEBI_IDS
+from pybel_tools.resources import CONFIDENCE, CHEBI_IDS, get_latest_arty_namespace
 
 log = logging.getLogger(__name__)
 
@@ -65,22 +65,8 @@ def get_data():
     return df
 
 
-def get_chebi_mapping():
-    chebi_df = bio2owl_chebi.download.download_names()
-    name_to_id = {}
-    for _, chebi_id, name, ctype, source in chebi_df[['COMPOUND_ID', 'NAME', 'TYPE', 'SOURCE']].sort_values(
-            'COMPOUND_ID').itertuples():
-
-        try:
-            name_to_id[name.lower()] = chebi_id
-        except:
-            log.info('%s %s %s %s', chebi_id, name, ctype, source)
-    return name_to_id
-
-
 def write_bel(file):
     df = get_data()
-    chebi_map = get_chebi_mapping()
 
     write_boilerplate(
         document_name='BKMS-react',
@@ -89,7 +75,7 @@ def write_bel(file):
         authors='Charles Tapley Hoyt',
         licenses='Creative Commons by 4.0',
         copyright='Copyright (c) 2017 Charles Tapley Hoyt. All rights reserved',
-        namespace_dict={'CHEBIID': CHEBI_IDS},
+        namespace_dict={'CHEBI': get_latest_arty_namespace('chebi')},
         namespace_patterns={'EC': EC_PATTERN},
         annotations_dict={'Confidence': CONFIDENCE},
         file=file
@@ -110,11 +96,11 @@ def write_bel(file):
         products = [c.strip() for c in products.split(' + ')]
 
         try:
-            reactants_chebi = [chebi_map[r.strip().lower()] for r in reactants]
-            reactants = ['a(CHEBIID:{})'.format(r) for r in reactants_chebi]
+            reactants_chebi = [r.strip().lower() for r in reactants]
+            reactants = ['a(CHEBI:{})'.format(r) for r in reactants_chebi]
 
-            products_chebi = [chebi_map[r.strip().lower()] for r in products]
-            products = ['a(CHEBIID:{})'.format(r) for r in products_chebi]
+            products_chebi = [r.strip().lower() for r in products]
+            products = ['a(CHEBI:{})'.format(r) for r in products_chebi]
         except KeyError:
             key_errors += 1
             continue

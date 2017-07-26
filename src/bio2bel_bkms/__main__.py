@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
+from .cli import main
 
 if __name__ == '__main__':
-    from .to_bel import add_to_pybel_resources
-
-    add_to_pybel_resources()
+    main()

@@ -14,9 +14,9 @@ BMC Biochemistry 2011, 12:42
 
 """
 
-__version__ = '0.1.0'
+__version__ = '0.1.0-dev'
 
-__title__ = 'bio2owl_bkms'
+__title__ = 'bio2bel_bkms'
 __description__ = "A package for converting BRENDA's BKMS to OWL and BEL resources"
 __url__ = 'https://github.com/bio2bel/bkms'
 
