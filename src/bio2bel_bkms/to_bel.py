@@ -60,7 +60,7 @@ def get_data():
         df = pd.read_csv(cache_path, sep='\t', header=None, index_col=0, names=header)
     else:
         log.info('downloading BKMS')
-        df = pd.read_csv(url, sep='\t', header=None, index_col=0, names=header, compression='gzip')
+        df = pd.read_csv(url, sep='\t', header=None, index_col=0, names=header, skiprows=3, compression='gzip')
 
     return df
 
