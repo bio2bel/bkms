@@ -15,6 +15,9 @@ INSTALL_REQUIRES = [
     'pybel_tools',
 ]
 ENTRY_POINTS = {
+    'bio2bel': [
+        'bkms = bio2bel_bkms',
+    ],
     'console_scripts': [
         'bio2bel_bkms = bio2bel_bkms.cli:main',
     ]

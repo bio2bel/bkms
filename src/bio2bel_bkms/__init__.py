@@ -14,6 +14,10 @@ BMC Biochemistry 2011, 12:42
 
 """
 
+from . import cli
+from . import run
+from .run import *
+
 __version__ = '0.1.0-dev'
 
 __title__ = 'bio2bel_bkms'
