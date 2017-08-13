@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 import click
 
-from .to_bel import write_bel
+from .run import write_bel
 
 
 @click.group()
