@@ -9,7 +9,7 @@ from .run import write_bel
 
 @click.group()
 def main():
-    """Tools for writing BKMS"""
+    """BKMS to BEL"""
 
 
 @main.command()
