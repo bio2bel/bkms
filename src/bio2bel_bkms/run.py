@@ -9,21 +9,15 @@ import os
 
 import obonet
 import pandas as pd
+from pybel_tools.resources import CONFIDENCE, get_latest_arty_namespace
 
+from bio2bel_bkms.constants import description, pmid, title, url
+from pybel.resources.arty import get_latest_arty_namespace
 from pybel.utils import ensure_quotes
-from pybel_tools.constants import evidence_format, PYBEL_RESOURCES_ENV, pubmed
+from pybel_tools.constants import PYBEL_RESOURCES_ENV, evidence_format
 from pybel_tools.document_utils import write_boilerplate
-from pybel_tools.resources import CONFIDENCE, EC_PATTERN, get_latest_arty_namespace
 
 log = logging.getLogger(__name__)
-
-url = 'http://bkm-react.tu-bs.de/download/Reactions_BKMS.tar.gz'
-hgnc_lookup = 'http://www.genenames.org/cgi-bin/download?col=gd_app_sym&col=gd_enz_ids&status=Approved&status_opt=2&where=&order_by=gd_app_sym_sort&format=text&limit=&hgnc_dbtag=on&submit=submit'
-pmid = 21824409
-title = 'BKM-react, an integrated biochemical reaction database.'
-description = """BKMS-react is an integrated and non-redundant biochemical reaction database containing known 
-enzyme-catalyzed and spontaneous reactions. Biochemical reactions collected from BRENDA, KEGG, MetaCyc and SABIO-RK
- were matched and integrated by aligning substrates and products.""".replace('\n', '')
 
 header = [
     'EC Number',
@@ -186,19 +180,19 @@ def print_reaction(ec, reactants, products, reversible=False, file=None):
 
 def write_bkms_boilerplate(file):
     write_boilerplate(
-        document_name='BKMS-react',
+        name='BKMS-react',
         description=description,
         contact='charles.hoyt@scai.fraunhofer.de',
         authors='Charles Tapley Hoyt',
         licenses='Creative Commons by 4.0',
         copyright='Copyright (c) 2017 Charles Tapley Hoyt. All rights reserved',
-        namespace_dict={'CHEBI': get_latest_arty_namespace('chebi')},
+        namespace_url={'CHEBI': get_latest_arty_namespace('chebi')},
         namespace_patterns={'EC': '.+'},
-        annotations_dict={'Confidence': CONFIDENCE},
+        annotation_url={'Confidence': CONFIDENCE},
         file=file
     )
 
-    print(pubmed(title, pmid), file=file)
+    print('SET Citation = {{"{}", "{}"}}'.format(title, pmid), file=file)
     print(evidence_format.format('Serialized from BKMS-react'), file=file)
     print('SET Confidence = "Axiomatic"', file=file)
 
