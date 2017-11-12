@@ -7,15 +7,14 @@ from __future__ import print_function
 import logging
 import os
 
-import obonet
 import pandas as pd
-from pybel_tools.resources import CONFIDENCE, get_latest_arty_namespace
 
-from bio2bel_bkms.constants import description, pmid, title, url
 from pybel.resources.arty import get_latest_arty_namespace
+from pybel.resources.defaults import CONFIDENCE
 from pybel.utils import ensure_quotes
 from pybel_tools.constants import PYBEL_RESOURCES_ENV, evidence_format
 from pybel_tools.document_utils import write_boilerplate
+from .constants import description, pmid, title, url
 
 log = logging.getLogger(__name__)
 
@@ -57,22 +56,6 @@ def get_data():
         df = pd.read_csv(url, sep='\t', header=None, index_col=0, names=header, skiprows=3, compression='gzip')
 
     return df
-
-
-def get_chebi_ontology(path):
-    chebi_ontology = obonet.read_obo(path)
-
-    ontology_id_name = {
-        int(node.split(':', maxsplit=1)[1]): data['name']
-        for node, data in chebi_ontology.nodes(data=True)
-    }
-
-    ontology_casefold_name = {
-        data['name'].casefold(): data['name']
-        for _, data in chebi_ontology.nodes(data=True)
-    }
-
-    return chebi_ontology, ontology_id_name, ontology_casefold_name
 
 
 class MissingDirection(ValueError):
