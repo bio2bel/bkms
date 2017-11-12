@@ -12,7 +12,8 @@ INSTALL_REQUIRES = [
     'requests',
     'click',
     'pandas',
-    'pybel_tools',
+    'pybel>=0.9.5',
+    'pybel_tools>=0.4.5',
 ]
 ENTRY_POINTS = {
     'bio2bel': [
