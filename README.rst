@@ -1,6 +1,6 @@
-bio2bel_bkms
-============
-Convert the BKMS reaciton database to BEL
+BKMS-react to BEL
+=================
+Convert the BKMS-react database to BEL
 
 Citation
 --------
@@ -13,4 +13,3 @@ Enzymes, representing the largest and by far most complex group of proteins, pla
 Installation
 ------------
 :code:`pip3 install git+https://github.com/bio2bel/bmks.git`
-
